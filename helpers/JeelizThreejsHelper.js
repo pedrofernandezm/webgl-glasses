@@ -351,7 +351,7 @@ const JeelizHelper = function(THREE){
           vertexShader: THREE.ShaderLib.basic.vertexShader,
           fragmentShader: "precision lowp float;\n void main(void){\n gl_FragColor=vec4(1.,0.,0.,1.);\n }",
           uniforms: THREE.ShaderLib.basic.uniforms,
-          colorWrite: false
+          colorWrite: true
         });
 
         occluderMesh.renderOrder = -1; //render first

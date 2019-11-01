@@ -1,9 +1,28 @@
 <html>
   <head>
     <title>WebGL Test</title>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <canvas id="configureCanvas" width="800px" height="600px" />
+    <canvas id="configureCanvas" width="800px" height="600px"></canvas>
+    <div class="circles-container">
+      <h3>Lenses color</h3>
+      <div data-color="green" class="circle lens green"></div>
+      <div data-color="blue" class="circle lens blue"></div>
+      <div data-color="yellow" class="circle lens yellow selected"></div>
+      <div data-color="red" class="circle lens red"></div>
+      <div data-color="aqua" class="circle lens aqua"></div>
+      <div data-color="salmon" class="circle lens salmon"></div>
+      <div data-color="black" class="circle lens black"></div>
+    </div>
+    <div class="circles-container">
+      <h3>Frame color</h3>
+      <div data-color="gold" class="circle frame gold"></div>
+      <div data-color="red" class="circle frame red"></div>
+      <div data-color="aqua" class="circle frame aqua"></div>
+      <div data-color="silver" class="circle frame silver"></div>
+      <div data-color="black" class="circle frame black selected"></div>
+    </div>
     <script src="bundle.js"></script>
   </body>
 </html>

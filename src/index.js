@@ -18,8 +18,24 @@ function detect_callback(faceIndex, isDetected) {
   }
 }
 
+let threeGlasses
+
+const green = 0x00FF00;
+const blue = 0x0000FF;
+const red = 0xFF0000;
+const yellow = 0xFFFF00;
+const aqua = 0x00FFFF;
+const salmon = 0xFA8072;
+const black = 0x000000;
+const brown = 0x8B4513;
+const gold = 0xD4AF37;
+const silver = 0xC0C0C0;
+
+let frameMaterial
+let lensMaterial
+
 // build the 3D. called once when Jeeliz Face Filter is OK
-function init_threeScene(spec) {
+function init_threeScene(spec, lensColor, frameColor) {
   const threeStuffs = JeelizHelper.init(spec, detect_callback);
 
    // CREATE A CUBE
@@ -54,27 +70,20 @@ function init_threeScene(spec) {
     r.occluder.position.set(0,0.1,-0.04);
     r.occluder.scale.multiplyScalar(0.0084);
 
-    const green = 0x00FF00;
-    const blue = 0x0000FF;
-    const red = 0xFF0000;
-    const yellow = 0xFFFF00;
-    const aqua = 0x00FFFF;
-    const salmon = 0xFA8072;
-    const black = 0x000000;
 
     const light = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 1);
     light.position.set(0, 1, 1);
 
 
-    const threeGlasses =  new THREE.Object3D();
+    threeGlasses =  new THREE.Object3D();
     const [frame, lens] = root.children;
 
-    const frameMaterial = new THREE.MeshPhongMaterial({ color: black });
+    frameMaterial = new THREE.MeshPhongMaterial({ color: frameColor });
     frameMaterial.needsUpdate = true;
     frame.material = frameMaterial;
     threeGlasses.add(frame);
 
-    const lensMaterial = new THREE.MeshPhongMaterial({ color: yellow });
+    lensMaterial = new THREE.MeshPhongMaterial({ color: lensColor });
     lensMaterial.needsUpdate = true;
     lensMaterial.envMap = textureEquirec;
     lens.material = lensMaterial;
@@ -119,7 +128,7 @@ function init_faceFilter(videoSettings){
       }
 
       console.log('INFO : JEEFACEFILTERAPI IS READY');
-      init_threeScene(spec);
+      init_threeScene(spec, yellow, black);
     }, //end callbackReady()
 
     //called at each render iteration (drawing loop) :
@@ -128,6 +137,40 @@ function init_faceFilter(videoSettings){
     } //end callbackTrack()
   }); //end JEEFACEFILTERAPI.init call
 } // end main()
+
+/*document.getElementById("green-lenses").onclick = function() {
+  console.log('lenses green')
+};*/
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const classLens = document.getElementsByClassName("lens");
+  const classFrame  = document.getElementsByClassName("frame");
+
+  const setLensColor = function() {
+    lensMaterial.color =  new THREE.Color(this.getAttribute("data-color"))
+    for (let i = 0; i < classLens.length; i++) {
+      classLens[i].classList.remove("selected")
+    }
+    this.classList.add("selected")
+  };
+
+  const setFrameColor = function() {
+    frameMaterial.color =  new THREE.Color(this.getAttribute("data-color"))
+    for (let i = 0; i < classFrame.length; i++) {
+      classFrame[i].classList.remove("selected")
+    }
+    this.classList.add("selected")
+  };
+
+  for (let i = 0; i < classLens.length; i++) {
+    classLens[i].addEventListener('click', setLensColor, false);
+  }
+
+  for (let i = 0; i < classFrame.length; i++) {
+    classFrame[i].addEventListener('click',  setFrameColor, false);
+  }
+})
 
 
 main();
